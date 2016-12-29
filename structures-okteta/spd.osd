@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+SPD Okteta Structure - Structure of DDR3 SPD data for viewing in Okteta
+
+Copyright (C) 2016   <>
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+-->
+<data>
+    <enumDef name="MemoryDefs" type="UInt8">
+        <entry value="8" name="DDR2 - not compatible"/>
+        <entry value="11" name="DDR3"/>
+    </enumDef>
+    <enumDef name="ModuleTypes" type="UInt8">
+        <entry value="2" name="Unbuffered DIMM"/>
+        <entry value="3" name="SO-DIMM"/>
+        <entry value="11" name="LRDIMM"/>
+    </enumDef>
+    <enumDef name="Density" type="UInt8">
+    </enumDef>
+    <enumDef name="Addressing" type="UInt8">
+    </enumDef>
+<struct name="spd">
+    <struct name="header">
+        <bitfield name="SPD Bytes used" width="4" type="unsigned" />
+        <bitfield name="SPD Bytes total" width="3" type="unsigned" />
+        <bitfield name="Include Serial In Checksum" width="1" type="bool"/>
+    </struct>
+    <struct name="version">
+        <bitfield name="Minor Version" width="4"/>
+        <bitfield name="Major Version" width="4"/>
+    </struct>
+    <enum name="Memory Type" enum="MemoryDefs" type="UInt8"/>
+    <enum name="Module Type" enum="ModuleTypes" type="UInt8" />
+    <enum name="SDRAM Density and Banks" enum="Density" type="UInt8" />
+    <enum name="SDRAM Addressing" enum="Addressing" type="UInt8" />
+
+    
+</struct>
+</data>
+
