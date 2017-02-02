@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Modifying RAM SPD Data
 
 Prior research and Tools for modifying RAM SPD data in part thanks to. [More info here](http://blog.zakkemble.co.uk/modifying-ram-spd-data/).
@@ -86,4 +85,3 @@ Part of this involves:
 
 1. Creating an xml structure definition for okteta to better work with binary SPD dumps.
 2. Creating a cli tool for reading, writing and editing SPD data.
->>>>>>> f50112c41c5e149d2f302d29327482416a3bcd33
