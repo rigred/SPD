@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+SPD Okteta Structure - Structure of DDR~DDR3 SPD data for viewing in Okteta
+
+Copyright (C) 2016   <>
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+-->
+<data>
+    <enumDef name="MemoryDefs" type="UInt8">
+            <entry value="0" name="Reserved"/>
+            <entry value="1" name="Standard FPM DRAM"/>
+            <entry value="2" name="EDO"/>
+            <entry value="3" name="Pipelined Nibble"/>
+            <entry value="4" name="SDRAM"/>
+            <entry value="5" name="ROM"/>
+            <entry value="6" name="DDR SGRAM"/>
+            <entry value="7" name="DDR SDRAM"/>
+            <entry value="8" name="DDR2 SDRAM"/>
+            <entry value="9" name="DDR2 SDRAM FB-DIMM"/>
+            <entry value="10" name="DDR2 SDRAM FB-DIMM PROBE"/>
+            <entry value="11" name="DDR3"/>
+            <entry value="12" name=""/>
+            <entry value="253" name="Reserved"/>
+            <entry value="254" name="Reserved"/>
+            <entry value="255" name="Reserved"/>
+        </enumDef>
+        <enumDef name="ModuleTypes" type="UInt8"> <!-- width="4" -->
+            <entry value="2" name="U-DIMM"/>
+            <entry value="3" name="SO-DIMM"/>
+            <entry value="11" name="LRDIMM"/>
+        </enumDef>
+    <struct name="spd">
+        <struct name="header">
+            <!--
+            0000 = Undefined
+            0001 = 128
+            0010 = 176
+            0011 = 256 
+            -->
+            <bitfield name="SPD Bytes used" width="4" type="unsigned" />
+            <!--
+            000 = Undefined
+            001 = 256
+            -->
+            <bitfield name="SPD Bytes total" width="3" type="unsigned" />
+            <!-- 
+            0 = CRC covers bytes 0~125
+            1 = CRC covers bytes 0~116
+            -->
+            <bitfield name="Include Serial In Checksum" width="1" type="bool"/> 
+        </struct>
+        <struct name="version">
+            <bitfield name="Minor Version" width="4" type="unsigned"/>
+            <bitfield name="Major Version" width="4" type="unsigned"/>
+        </struct>
+        <enum name="Memory Type" enum="MemoryDefs" type="UInt8"/>
+        <enum name="Module Type" enum="ModuleTypes" type="UInt8" />
+        <struct name="SDRAM Density and Banks">
+            <!-- 
+            0000 = 256 Mb   dec = 0
+            0001 = 512 Mb   dec = 1
+            0010 = 1 Gb     dec = 2
+            0011 = 2 Gb     dec = 3
+            0100 = 4 Gb     dec = 4
+            0101 = 8 Gb     dec = 5
+            0110 = 16 Gb    dec = 6
+            All others reserved
+            -->
+            <bitfield name="Total SDRAM capacity (megabits)" width="4" type="unsigned"/>
+            <!--
+            000 = 3 (8 banks)   dec = 0
+            001 = 4 (16 banks)  dec = 1
+            010 = 5 (32 banks)  dec = 2
+            011 = 6 (64 banks)  dec = 3
+            All others reserved
+            -->
+            <bitfield name="Banks" width="3" type="unsigned"/>
+            <bitfield name="padding (Reserved)" width="1"/>
+        </struct>
+        <struct name="SDRAM Addressing">
+            <!--
+            000 = 9     dec = 0
+            001 = 10    dec = 1
+            010 = 11    dec = 2
+            011 = 12    dec = 3
+            All others reserved
+            -->
+            <bitfield name="Column Address Bits" width="3" type="unsigned" />
+            <!--
+            000 = 12
+            001 = 13
+            010 = 14
+            011 = 15
+            100 = 16
+            All others reserved
+            -->
+            <bitfield name="Row Addres Bits" width="3" type="unsigned" />
+            <bitfield name="padding (Reserved)" width="1" />
+        </struct>
+        <struct name="Module Nominal Voltage">
+            <!--
+            0 = 1.5 V operable
+            1 = NOT 1.5 V operable
+            -->
+            <bitfield name="NOT 1.5 V operable" type="bool" width="1" />
+            <!--
+            0 = NOT 1.35 V operable
+            1 = 1.35 V operable
+            -->
+            <bitfield name="1.35 V operable" type="bool" width="1" />
+            <!--
+            0 = NOT 1.2X V operable
+            1 = 1.2X V operable
+            -->
+            <bitfield name="1.2X V operable" type="bool" width="1" />
+            <bitfield name="padding (Reserved)" width="5" />
+        </struct>
+        <struct name="Module Organization">
+            <!--
+            000 = 4 bits    dec = 0
+            001 = 8 bits    dec = 1
+            010 = 16 bits   dec = 2
+            011 = 32 bits   dec = 3
+            -->
+            <bitfield name="SDRAM Device Width (Bits)" type="unsigned" width="3"/>
+            <!--
+            000 = 1 Rank    dec = 0
+            001 = 2 Ranks   dec = 1
+            010 = 3 Ranks   dec = 2
+            011 = 4 Ranks   dec = 3
+            -->
+            <bitfield name="Number of Ranks" type="unsigned" width="3"/>
+            <bitfield name="padding (Reserved)" width="2" />
+        </struct>
+        <struct name="Module Memory Bus Width">
+            <!--
+            000 = 8 bits    dec = 0
+            001 = 16 bits   dec = 1
+            010 = 32 bits   dec = 2
+            011 = 64 bits   dec = 3
+            All others reserved
+            -->
+            <bitfield name="Primary bus width in bits" type="unsigned" width="3" />
+            <!--
+            000 = 0 bits (no extension)
+            001 = 8 bits
+            -->
+            <bitfield name="Bus width extension in bits" type="unsigned" width="2" />
+            <bitfield name="padding (Reserved)" width="3" />
+        </struct>
+        <struct name="Fine Timebase (FTB) Dividend / Divisor">
+            <!-- Values defined from 1 to 15 -->
+            <bitfield name="Fine Timebase (FTB) Divisor" width="4" type="unsigned"/>
+            <!-- Values defined from 1 to 15 -->
+            <bitfield name="Fine Timebase (FTB) Dividend" width="4" type="unsigned"/>
+        </struct>
+        <!-- Byte 10: Values defined from 1 to 255 -->
+        <primitive name="Medium Timebase (MTB) Dividend" type="UInt8" />
+        <!-- Byte 11: Values defined from 1 to 255 -->
+        <primitive name="Medium Timebase (MTB) Divisor" type="UInt8" />
+        <!-- Byte 12: Values defined from 1 to 255 -->
+        <primitive name="SDRAM Minimum Cycle Time (tCKmin)" type="UInt8" />
+        <!-- Byte 12: Reserved -->
+        <primitive name="Byte 13 (Reserved)" type="UInt8" />
+        <struct name="CAS Latencies Supported - Least Significant Byte"> 
+            <bitfield name="CL = 4" type="bool" width="1" />
+            <bitfield name="CL = 5" type="bool" width="1" />
+            <bitfield name="CL = 6" type="bool" width="1" />
+            <bitfield name="CL = 7" type="bool" width="1" />
+            <bitfield name="CL = 8" type="bool" width="1" />
+            <bitfield name="CL = 9" type="bool" width="1" />
+            <bitfield name="CL = 10" type="bool" width="1" />
+            <bitfield name="CL = 11" type="bool" width="1" />
+        </struct>
+        <struct name="CAS Latencies Supported - Most Significant Byte"> 
+            <bitfield name="CL = 12" type="bool" width="1" />
+            <bitfield name="CL = 13" type="bool" width="1" />
+            <bitfield name="CL = 14" type="bool" width="1" />
+            <bitfield name="CL = 15" type="bool" width="1" />
+            <bitfield name="CL = 16" type="bool" width="1" />
+            <bitfield name="CL = 17" type="bool" width="1" />
+            <bitfield name="CL = 18" type="bool" width="1" />
+            <bitfield name="padding (Reserved)" type="bool" width="1" />
+        </struct>
+        <!-- Byte 16: Values defined from 1 to 255 -->
+        <primitive type="UInt8" name="Minimum CAS Latency Time (tAAmin)" />
+        <primitive type="UInt8" name="Minimum Write Recovery Time (tWRmin)" />
+        <primitive type="UInt8" name="Minimum RAS# to CAS# Delay Time (tRCDmin)" />
+        <primitive type="UInt8" name="Minimum Row Active to Row Active Delay Time (tRRDmin)" />
+        <!-- Byte 20 -->
+        <primitive type="UInt8" name="Minimum Row Precharge Delay Time (tRPmin)" />
+        <struct name="Upper Nibbles for tRAS and tRC">
+            <bitfield name="tRAS Most Significant Nibble" width="4" type="unsigned" />
+            <bitfield name="tRC Most Significant Nibble" width="4" type="unsigned" />
+        </struct>
+    </struct>
+</data>
