@@ -37,8 +37,8 @@ do
 	echo -en "\rWriting: ${DATAADDR}/255 (${SPDDATA[${DATAADDR}]})"
 
 	echo -en " WARNING open this script, comment the sleep line and uncomment the i2cset line at your own risk! (No changes have been made)"
-	sleep 0.02
-	#$(i2cset -y ${BUS} ${ADDRESS} ${DATAADDR} ${SPDDATA[${DATAADDR}]})
+	#sleep 0.02
+	$(i2cset -y ${BUS} ${ADDRESS} ${DATAADDR} ${SPDDATA[${DATAADDR}]})
 
 	if [ $? -ne 0 ]; then
 		echo ""
